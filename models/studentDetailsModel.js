@@ -1,4 +1,15 @@
 const mongoose = require("mongoose");
+// Helper function to format timestamps
+const formatTimestamp = (timestamp) => {
+  return new Date(timestamp).toLocaleString("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+};
 
 const studentDetailsModel = mongoose.Schema(
   {
@@ -22,9 +33,17 @@ const studentDetailsModel = mongoose.Schema(
       type: String,
       required: [true, "Enter student rollno"],
     },
+    createdAt: {
+      type: String,
+      default: () => formatTimestamp(Date.now()),
+    },
+    updatedAt: {
+      type: String,
+      default: () => formatTimestamp(Date.now()),
+    },
   },
   {
-    timestamps: true, // Automatically manages createdAt and updatedAt
+    timestamps: false, // Enable automatic timestamps
   }
 );
 

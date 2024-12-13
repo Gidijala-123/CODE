@@ -13,6 +13,30 @@ const validateToken = require("../middleware/validateToken");
 
 /**
  * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *   schemas:
+ *     Student:
+ *       type: object
+ *       properties:
+ *         studentName:
+ *           type: string
+ *         studentAge:
+ *           type: number
+ *         studentClass:
+ *           type: string
+ *         studentSection:
+ *           type: string
+ *         studentRollNo:
+ *           type: string
+ */
+
+/**
+ * @swagger
  * tags:
  *   name: StudentDetails
  *   description: API for managing student details
@@ -24,23 +48,14 @@ const validateToken = require("../middleware/validateToken");
  *   post:
  *     summary: Create a new student
  *     tags: [StudentDetails]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               studentName:
- *                 type: string
- *               studentAge:
- *                 type: number
- *               studentClass:
- *                 type: string
- *               studentSection:
- *                 type: string
- *               studentRollNo:
- *                 type: string
+ *             $ref: '#/components/schemas/Student'
  *     responses:
  *       201:
  *         description: Student created successfully
@@ -52,6 +67,8 @@ const validateToken = require("../middleware/validateToken");
  *   get:
  *     summary: Get all students with pagination
  *     tags: [StudentDetails]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: Page
  *         in: query
@@ -76,6 +93,8 @@ const validateToken = require("../middleware/validateToken");
  *   get:
  *     summary: Get a student by ID
  *     tags: [StudentDetails]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -95,6 +114,8 @@ const validateToken = require("../middleware/validateToken");
  *   put:
  *     summary: Update a student by ID
  *     tags: [StudentDetails]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -106,7 +127,7 @@ const validateToken = require("../middleware/validateToken");
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             $ref: '#/components/schemas/Student'
  *     responses:
  *       201:
  *         description: Student updated successfully
@@ -120,6 +141,8 @@ const validateToken = require("../middleware/validateToken");
  *   delete:
  *     summary: Delete a student by ID
  *     tags: [StudentDetails]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
