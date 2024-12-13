@@ -42,7 +42,7 @@ const errorHandler = (err, req, res, next) => {
       res.status(500).json({
         title: "Unknown Error",
         message: "An unknown error occurred.",
-        stackTrace: isDevelopment ? err.stack : null,
+        stackTrace: err.stackTrace,
       });
       break;
   }
