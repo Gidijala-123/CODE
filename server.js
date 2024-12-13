@@ -25,7 +25,7 @@ const swaggerOptions = {
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/swagger-url", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Middleware
 const dbConnection = require("./configFile/dbConfig");
