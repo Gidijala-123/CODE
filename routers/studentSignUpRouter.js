@@ -26,11 +26,11 @@ const {
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               studentName:
  *                 type: string
- *               password:
+ *               studentMail:
  *                 type: string
- *               name:
+ *               studentPassword:
  *                 type: string
  *     responses:
  *       201:
@@ -52,9 +52,9 @@ const {
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               studentMail:
  *                 type: string
- *               password:
+ *               studentPassword:
  *                 type: string
  *     responses:
  *       200:

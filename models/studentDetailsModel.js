@@ -7,7 +7,7 @@ const studentDetailsModel = mongoose.Schema(
       required: [true, "Enter student name"],
     },
     studentAge: {
-      type: String,
+      type: Number,
       required: [true, "Enter student age"],
     },
     studentClass: {
@@ -22,10 +22,6 @@ const studentDetailsModel = mongoose.Schema(
       type: String,
       required: [true, "Enter student rollno"],
     },
-    // studentPhoto: {
-    //   type: String,
-    //   required: [true,"Provide student photo"],
-    // },
   },
   {
     timestamps: true, // Automatically manages createdAt and updatedAt

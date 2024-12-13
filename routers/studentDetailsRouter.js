@@ -53,13 +53,13 @@ const validateToken = require("../middleware/validateToken");
  *     summary: Get all students with pagination
  *     tags: [StudentDetails]
  *     parameters:
- *       - name: page
+ *       - name: Page
  *         in: query
  *         description: Page number
  *         required: false
  *         schema:
  *           type: integer
- *       - name: limit
+ *       - name: Limit
  *         in: query
  *         description: Number of students per page
  *         required: false
