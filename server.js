@@ -1,44 +1,67 @@
 const express = require("express");
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsdoc = require("swagger-jsdoc");
 require("dotenv").config();
+const swaggerUi = require("swagger-ui-express");
 
 const app = express();
 const port = process.env.PORT || 9999;
 
-// Swagger setup
-const swaggerOptions = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Student Management API",
-      version: "1.0.0",
-      description: "API for managing student details",
-    },
-    servers: [
-      {
-        url: `http://localhost:${port}`,
-      },
-    ],
-  },
-  apis: ["./routers/*.js", "./controllers/*.js"], // Paths to files with Swagger comments
-};
-
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use("/swagger-url", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
 // Middleware
-const dbConnection = require("./configFile/dbConfig");
-const errorHandler = require("./middleware/errorHandling");
 app.use(express.json());
+
+// Import routers and Swagger docs
+const {
+  router: studentSignUpRouter,
+  swaggerSignUpDoc,
+} = require("./routers/studentSignUpRouter");
+const {
+  router: studentDetailsRouter,
+  swaggerDetailsDoc,
+} = require("./routers/studentDetailsRouter");
+
+// Swagger UI setup for StudentSignUp
+app.use(
+  "/swagger/studentSignUp",
+  (req, res, next) => {
+    req.swaggerDoc = swaggerSignUpDoc;
+    next();
+  },
+  swaggerUi.serve,
+  swaggerUi.setup(null, {
+    swaggerOptions: { url: "/swagger/studentSignUp.json" },
+  })
+);
+
+// Swagger UI setup for StudentDetails
+app.use(
+  "/swagger/studentDetails",
+  (req, res, next) => {
+    req.swaggerDoc = swaggerDetailsDoc;
+    next();
+  },
+  swaggerUi.serve,
+  swaggerUi.setup(null, {
+    swaggerOptions: { url: "/swagger/studentDetails.json" },
+  })
+);
+
+// Error handling middleware
+const dbConnection = require("./configFile/dbConfig");
+dbConnection();
+
+const errorHandler = require("./middleware/errorHandling");
 app.use(errorHandler);
 
-// Routes
-app.use("/api/studentSignUp", require("./routers/studentSignUpRouter"));
-app.use("/api/studentDetails", require("./routers/studentDetailsRouter"));
-
-// Start server
+// Start the server
 app.listen(port, () => {
-  console.log("Server running @ PORT :", port);
+  console.log(`Server running at http://localhost:${port}`);
+  // console.log(
+  //   `Swagger for StudentSignUp: http://localhost:${port}/swagger/studentSignUp`
+  // );
+  // console.log(
+  //   `Swagger for StudentDetails: http://localhost:${port}/swagger/studentDetails`
+  // );
 });
-dbConnection();
+
+// Use the routers
+app.use("/api/studentSignUp", studentSignUpRouter);
+app.use("/api/studentDetails", studentDetailsRouter);

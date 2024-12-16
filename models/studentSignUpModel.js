@@ -9,6 +9,7 @@ const formatTimestamp = (timestamp) => {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
+    hour12: true, // Enables 12-hour format with AM/PM
   });
 };
 
@@ -28,16 +29,24 @@ const studentSignUpModel = mongoose.Schema(
     },
     createdAt: {
       type: String,
-      default: () => formatTimestamp(Date.now()),
+      default: () => formatTimestamp(Date.now()), // Initial formatting
     },
     updatedAt: {
       type: String,
-      default: () => formatTimestamp(Date.now()),
+      default: () => formatTimestamp(Date.now()), // Initial formatting
     },
   },
   {
-    timestamps: false, // Enable automatic timestamps
+    timestamps: true, // Enable automatic timestamps (createdAt, updatedAt)
   }
 );
+
+// Middleware to update updatedAt timestamp before saving
+studentSignUpModel.pre("save", function (next) {
+  if (this.isModified()) {
+    this.updatedAt = formatTimestamp(Date.now()); // Update updatedAt field with formatted timestamp
+  }
+  next();
+});
 
 module.exports = mongoose.model("studentSignUp_colls", studentSignUpModel);
